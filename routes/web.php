@@ -1,11 +1,21 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/contact', function() {
+    return view('contact');
+})->name('contact');
+Route::get('/about-us', [AboutController::class, 'index'])->name('about');
+
+Route::resource('products', ProductController::class);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
