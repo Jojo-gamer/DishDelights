@@ -1,1 +1,1 @@
-{{--<p>Id: {{id}}</p>--}}
+<p>specifiek product {{$id}}</p>

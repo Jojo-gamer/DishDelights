@@ -36,6 +36,7 @@ class ProductController extends Controller
     public function show(string $id)
     {
         return view('products.item', compact('id'));
+//        return $id;
     }
 
     /**
