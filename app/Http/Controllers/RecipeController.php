@@ -12,9 +12,11 @@ class RecipeController extends Controller
     public function index()
     {
         $recipes = [
-            ['id' => 1, 'name' =>'Recept 1'],
-            ['id' => 2, 'name' =>'Recept 2'],
-            ['id' => 3, 'name' =>'Recept 3'],
+            ['id' => 1, 'name' =>'Recept 1', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 15],
+            ['id' => 2, 'name' =>'Recept 2', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 12],
+            ['id' => 3, 'name' =>'Recept 3', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 18],
+            ['id' => 4, 'name' =>'Recept 4', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 18],
+            ['id' => 5, 'name' =>'Recept 5', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 18],
         ];
         return view('recipes.index', compact('recipes'));
     }
@@ -43,9 +45,11 @@ class RecipeController extends Controller
         //zoek in db op id
         //get data
         $recipes = [
-            ['id' => 1, 'name' =>'Recept 1'],
-            ['id' => 2, 'name' =>'Recept 2'],
-            ['id' => 3, 'name' =>'Recept 3'],
+            ['id' => 1, 'name' =>'Recept 1', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 15],
+            ['id' => 2, 'name' =>'Recept 2', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 12],
+            ['id' => 3, 'name' =>'Recept 3', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 18],
+            ['id' => 4, 'name' =>'Recept 4', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 18],
+            ['id' => 5, 'name' =>'Recept 5', 'description' => 'lorem impsum drate krilum de pesrta', 'prep-time' => 18],
         ];
         $recipe = $recipes[$id-1];
         return view('recipes.recipe', compact('recipe'));
