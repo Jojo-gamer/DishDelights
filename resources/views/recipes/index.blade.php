@@ -7,6 +7,6 @@
         @endforeach
     @endisset
     @empty($recipes)
-        <p>geen producten beschikbaar</p>
+        <p>geen recepten beschikbaar</p>
     @endempty
 </x-app-layout>

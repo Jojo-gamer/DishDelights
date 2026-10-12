@@ -12,9 +12,9 @@ class RecipeController extends Controller
     public function index()
     {
         $recipes = [
-            ['id' => 1, 'name' =>'product 1'],
-            ['id' => 2, 'name' =>'product 2'],
-            ['id' => 3, 'name' =>'product 3'],
+            ['id' => 1, 'name' =>'Recept 1'],
+            ['id' => 2, 'name' =>'Recept 2'],
+            ['id' => 3, 'name' =>'Recept 3'],
         ];
         return view('recipes.index', compact('recipes'));
     }
@@ -40,7 +40,15 @@ class RecipeController extends Controller
      */
     public function show(string $id)
     {
-        return view('products.item', compact('id'));
+        //zoek in db op id
+        //get data
+        $recipes = [
+            ['id' => 1, 'name' =>'Recept 1'],
+            ['id' => 2, 'name' =>'Recept 2'],
+            ['id' => 3, 'name' =>'Recept 3'],
+        ];
+        $recipe = $recipes[$id-1];
+        return view('recipes.recipe', compact('recipe'));
 //        return $id;
     }
 
