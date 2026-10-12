@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class RecipeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('products.index');
+        $recipes = [
+            ['id' => 1, 'name' =>'product 1'],
+            ['id' => 2, 'name' =>'product 2'],
+            ['id' => 3, 'name' =>'product 3'],
+        ];
+        return view('recipes.index', compact('recipes'));
     }
 
     /**
