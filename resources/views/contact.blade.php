@@ -1,7 +1,9 @@
-<h2>Contact Information</h2>
-<ul>
-    <li>email: email@gmail.com</li>
-    <li>phone: 06 12345678</li>
-</ul>
+<x-app-layout>
+    <h2>Contact Information</h2>
+    <ul>
+        <li>email: email@gmail.com</li>
+        <li>phone: 06 12345678</li>
+    </ul>
 
-<a href="{{route('about')}}">about-us</a>
+    <a href="{{route('about')}}">about-us</a>
+</x-app-layout>
