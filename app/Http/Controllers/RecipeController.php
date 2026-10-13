@@ -36,12 +36,12 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Recipe $recipe)
     {
-        $recipe = Recipe::find($id);
+//        $recipe = Recipe::findOrFail($id);
         $recipe->instructions = json_decode($recipe->instructions);
-        $recipe->user = User::find($recipe->user_id);
-        return view('recipes.recipe', compact('recipe'));
+        $user = User::findOrFail($recipe->user_id);
+        return view('recipes.recipe', compact('recipe', 'user'));
     }
 
     /**

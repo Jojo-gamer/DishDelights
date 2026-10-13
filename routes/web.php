@@ -7,7 +7,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/about-us', [AboutController::class, 'index'])->name('about');
 Route::resource('recipes', RecipeController::class);

@@ -6,5 +6,5 @@
         <li>{{ $instruction }}</li>
         @endforeach
     </ul>
-    <p>GEPOST DOOR {{ $recipe->user->name }}</p>
+    <p>GEPOST DOOR {{ $user->name }}</p>
 </x-app-layout>
