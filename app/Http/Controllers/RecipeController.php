@@ -13,7 +13,10 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        $recipes = Recipe::all();
+        $recipes = Recipe::where([
+            ['status', 'approved'],
+            ['is_active', true],
+        ])->get();
         return view('recipes.index', compact('recipes'));
     }
 
