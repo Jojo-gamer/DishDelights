@@ -60,8 +60,7 @@ class RecipeController extends Controller
     public function show(Recipe $recipe)
     {
         $recipe->instructions = json_decode($recipe->instructions);
-        $user = User::findOrFail($recipe->user_id);
-        return view('recipes.recipe', compact('recipe', 'user'));
+        return view('recipes.recipe', compact('recipe'));
     }
 
     /**

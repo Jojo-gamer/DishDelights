@@ -31,7 +31,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function recipe() :HasMany
+    public function recipes() :HasMany
     {
         return $this->hasMany(Recipe::class);
     }

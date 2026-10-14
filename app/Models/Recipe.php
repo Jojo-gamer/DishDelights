@@ -13,6 +13,4 @@ class Recipe extends Model
     {
         return $this->belongsTo(User::class);
     }
-    //        return $this->hasMany(Review::class);
-
 }
