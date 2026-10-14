@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class RecipeController extends Controller
 {
@@ -33,7 +34,11 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-//        test\r\n
+//        AI IMAGE IF NO UPLOAD???
+//        use Laravel\Ai\Image;
+//        $image = Image::of('A donut sitting on the kitchen counter')->generate();
+//        $rawContent = (string) $image;
+
         $request->validate([
             'name' => 'required|string|max:50',
             'description' => 'required|string|max:500',
@@ -49,8 +54,8 @@ class RecipeController extends Controller
         $recipe->instructions = str($instructions)->split('/\r\n|\r|\n/')->toJson();
         $image_path = $request->file('image')->storePublicly('recipes', 'public');
         $recipe->image_path = $image_path; //to store the link to the image in the DB
-        $recipe->status = "pending"; //$request->input('status');
-        $recipe->is_active = true;  //$request->input('is_active');
+        $recipe->status = "pending";
+        $recipe->is_active = true;
         $recipe->user_id = auth()->id();
         $recipe->save();
 
@@ -62,24 +67,46 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        $recipe->instructions = json_decode($recipe->instructions);
+        $recipe->instructions = Collection::fromJson($recipe->instructions);
         return view('recipes.recipe', compact('recipe'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Recipe $recipe)
     {
-        //
+        $recipe->instructions = Collection::fromJson($recipe->instructions)->implode("\r\n");
+        return view('recipes.edit', compact('recipe'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Recipe $recipe)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'description' => 'required|string|max:500',
+            'prep_time' => 'required|integer|max_digits:3',
+            'instructions' => 'required|string',
+            'image' => 'image',
+        ]);
+        $recipe->name = $request->input('name');
+        $recipe->description = $request->input('description');
+        $recipe->prep_time = $request->input('prep_time');
+        $instructions = $request->input('instructions');
+        $recipe->instructions = str($instructions)->split('/\r\n|\r|\n/')->toJson();
+        if ($request->hasFile('image')) {
+            //DELETE VORIGE IMAGE???
+            $recipe->image_path = $request->file('image')->storePublicly('recipes', 'public');
+        }
+        $recipe->status = "pending";
+        $recipe->is_active = true;
+        $recipe->user_id = auth()->id();
+        $recipe->save();
+
+        return to_route('recipes.index');
     }
 
     /**
