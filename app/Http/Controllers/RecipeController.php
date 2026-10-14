@@ -22,7 +22,7 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        //
+        return view('recipes.create');
     }
 
     /**
@@ -30,7 +30,28 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        test\r\n
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'description' => 'required|string|max:500',
+            'prep_time' => 'required|integer|max_digits:3',
+            'instructions' => 'required|string',
+            'image' => 'required|image',
+        ]);
+        $recipe = new Recipe();
+        $recipe->name = $request->input('name');
+        $recipe->description = $request->input('description');
+        $recipe->prep_time = $request->input('prep_time');
+        $instructions = $request->input('instructions');
+        $recipe->instructions = str($instructions)->split('/\r\n|\r|\n/')->toJson();
+        $image_path = $request->file('image')->storePublicly('recipes', 'public');
+        $recipe->image_path = $image_path; //to store the link to the image in the DB
+        $recipe->status = "pending"; //$request->input('status');
+        $recipe->is_active = true;  //$request->input('is_active');
+        $recipe->user_id = auth()->id();
+        $recipe->save();
+
+        return to_route('recipes.index');
     }
 
     /**
@@ -38,7 +59,6 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-//        $recipe = Recipe::findOrFail($id);
         $recipe->instructions = json_decode($recipe->instructions);
         $user = User::findOrFail($recipe->user_id);
         return view('recipes.recipe', compact('recipe', 'user'));
