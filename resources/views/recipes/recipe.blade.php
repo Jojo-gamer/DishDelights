@@ -23,14 +23,15 @@
 
                 <div class="flex justify-between items-center border-b border-slate-200 py-3">
                     <div class="flex items-center gap-3 ">
-                        <div
-                            class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-lg font-bold text-white">
-                            {{ strtoupper(substr($recipe->user->name, 0, 1)) }}
-                        </div>
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wide text-slate-500">Gemaakt door</p>
-                            <p class="font-semibold text-slate-900">{{ $recipe->user->name }}</p>
-                        </div>
+                        @isset($recipe->user->name)
+                            <x-recipe-profile profile="{{ strtoupper(substr($recipe->user->name, 0, 1)) }}">
+                                {{ $recipe->user->name }}
+                            </x-recipe-profile>
+                        @else
+                            <x-recipe-profile profile="?">
+                                Onbekende gebruiker
+                            </x-recipe-profile>
+                        @endempty
                     </div>
                     <div class="self-start rounded-2xl bg-slate-100 px-5 py-3">
                         <p class="text-sm font-medium text-slate-500">Gepubliceerd op</p>
@@ -46,22 +47,22 @@
                         <h2 class="mb-3 text-2xl font-bold text-slate-900">Over dit recept</h2>
                         <p class="text-base leading-7 text-slate-600">{{ $recipe->description }}</p>
 
-{{--                        ingredients--}}
+                        {{--                        ingredients--}}
                     </div>
-                        <div>
-                            <h2 class="mb-4 text-2xl font-bold text-slate-900">Bereidingswijze</h2>
-                            <ol class="grid gap-3">
-                                @foreach($recipe->instructions as $instruction)
-                                    <li class="flex gap-3 text-slate-600">
+                    <div>
+                        <h2 class="mb-4 text-2xl font-bold text-slate-900">Bereidingswijze</h2>
+                        <ol class="grid gap-3">
+                            @foreach($recipe->instructions as $instruction)
+                                <li class="flex gap-3 text-slate-600">
                                         <span
                                             class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-800">
                                             {{ $loop->iteration }}
                                         </span>
-                                        <span class="pt-1 leading-6">{{ $instruction }}</span>
-                                    </li>
-                                @endforeach
-                            </ol>
-                        </div>
+                                    <span class="pt-1 leading-6">{{ $instruction }}</span>
+                                </li>
+                            @endforeach
+                        </ol>
+                    </div>
 
                 </div>
             </div>
