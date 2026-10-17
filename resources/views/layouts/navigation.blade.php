@@ -21,15 +21,15 @@
                     <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
                         {{ __('Contact') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 @auth
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button

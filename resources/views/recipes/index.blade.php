@@ -3,11 +3,11 @@
         <div class="mx-auto max-w-7xl">
             <div class="flex justify-between align-center mb-6">
                 <h1 class="mb-8 text-3xl font-bold text-slate-900">Recepten</h1>
-                {{--            <x-slot name="header">--}}
-                {{--                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">--}}
-                {{--                    {{ __('Recepten') }}--}}
-                {{--                </h2>--}}
-                {{--            </x-slot>--}}
+{{--                            <x-slot name="header">--}}
+{{--                                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">--}}
+{{--                                    {{ __('Recepten') }}--}}
+{{--                                </h2>--}}
+{{--                            </x-slot>--}}
                 @include('recipes.partials.create-recipe-button')
             </div>
 
@@ -18,7 +18,7 @@
                             href="{{ route('recipes.show', $recipe->id) }}"
                             class="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl"
                         >
-                            <div class="aspect-video w-full bg-slate-100">
+                            <div class="h-60 w-full bg-slate-100">
                                 <img
                                     src="{{asset('storage/' . $recipe->image_path)}}"
                                     alt="{{ $recipe->name }}"
