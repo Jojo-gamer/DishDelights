@@ -78,7 +78,7 @@
             @endisset
         </div>
 
-        <form class="grid gap-3" enctype="multipart/form-data" action="{{ route('profile.update') }}">
+        <form class="grid gap-3" method="POST" enctype="multipart/form-data" action="{{ route('profile.update') }}">
             @csrf
             @method('patch')
             <label
@@ -93,6 +93,7 @@
                 </span>
                 <input id="image" name="image" type="file" accept="image/*" class="sr-only">
             </label>
+            <x-input-error :messages="$errors->get('image')"/>
             <button
                 type="submit"
                 class="inline-flex items-center justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-gray-200 dark:text-gray-800 dark:hover:bg-white dark:focus:ring-offset-gray-800"
