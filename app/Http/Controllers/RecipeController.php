@@ -9,6 +9,24 @@ use Illuminate\Support\Collection;
 
 class RecipeController extends Controller
 {
+    // function for store & update
+    private function upload($request, $recipe)
+    {
+        $recipe->name = $request->input('name');
+        $recipe->description = $request->input('description');
+        $recipe->prep_time = $request->input('prep_time');
+        $instructions = $request->input('instructions');
+        $recipe->instructions = str($instructions)->split('/\r\n|\r|\n/')->toJson();
+        if ($request->hasFile('image')) {
+            //DELETE VORIGE IMAGE???
+            $recipe->image_path = $request->file('image')->storePublicly('recipes', 'public');
+        }
+        $recipe->status = "pending";
+        $recipe->is_active = true;
+        $recipe->user_id = auth()->id();
+        $recipe->save();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -47,19 +65,9 @@ class RecipeController extends Controller
             'image' => 'required|image',
         ]);
         $recipe = new Recipe();
-        $recipe->name = $request->input('name');
-        $recipe->description = $request->input('description');
-        $recipe->prep_time = $request->input('prep_time');
-        $instructions = $request->input('instructions');
-        $recipe->instructions = str($instructions)->split('/\r\n|\r|\n/')->toJson();
-        $image_path = $request->file('image')->storePublicly('recipes', 'public');
-        $recipe->image_path = $image_path; //to store the link to the image in the DB
-        $recipe->status = "pending";
-        $recipe->is_active = true;
-        $recipe->user_id = auth()->id();
-        $recipe->save();
+        $this->upload($request, $recipe);
 
-        return to_route('recipes.index');
+        return to_route('dashboard');
     }
 
     /**
@@ -92,28 +100,17 @@ class RecipeController extends Controller
             'instructions' => 'required|string',
             'image' => 'image',
         ]);
-        $recipe->name = $request->input('name');
-        $recipe->description = $request->input('description');
-        $recipe->prep_time = $request->input('prep_time');
-        $instructions = $request->input('instructions');
-        $recipe->instructions = str($instructions)->split('/\r\n|\r|\n/')->toJson();
-        if ($request->hasFile('image')) {
-            //DELETE VORIGE IMAGE???
-            $recipe->image_path = $request->file('image')->storePublicly('recipes', 'public');
-        }
-        $recipe->status = "pending";
-        $recipe->is_active = true;
-        $recipe->user_id = auth()->id();
-        $recipe->save();
+        $this->upload($request, $recipe);
 
-        return to_route('recipes.index');
+        return to_route('dashboard');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Recipe $recipe)
     {
-        //
+        $recipe->delete();
+        return to_route('dashboard');
     }
 }
