@@ -7,9 +7,13 @@
 
     <div class="px-4 py-12 sm:px-6 lg:px-8">
         <div class="mx-auto grid max-w-7xl gap-6">
+            <div class="flex justify-between align-center">
             <div class="grid gap-2">
                 <h2 class="text-3xl font-bold tracking-tight text-slate-900">Mijn uploads</h2>
                 <p class="text-sm text-slate-600">Beheer hier je ingezonden recepten.</p>
+            </div>
+
+            @include('recipes.partials.create-recipe-button')
             </div>
 
             <div class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-200">
@@ -54,7 +58,7 @@
                                         >
                                             Edit
                                         </a>
-                                        <form method="POST" action="{{ route('recipes.destroy', $recipe->id) }}">
+                                        <form method="POST" action="{{ route('recipes.destroy', $recipe->id) }}" onsubmit="return confirm('Weet je zeker dat je dit wilt verwijderen?');">
                                             @csrf
                                             @method('DELETE')
                                             <button
