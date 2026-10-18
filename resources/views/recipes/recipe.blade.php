@@ -23,12 +23,12 @@
 
                 <div class="flex justify-between items-center border-b border-slate-200 py-3">
                     <div class="flex items-center gap-3 ">
-                        @isset($recipe->user->name)
-                            <x-recipe-profile profile="{{ strtoupper(substr($recipe->user->name, 0, 1)) }}">
+                        @isset($recipe->user)
+                            <x-recipe-profile username="{{ $recipe->user->name }}" profilePicture="{{ $recipe->user->image_path }}">
                                 {{ $recipe->user->name }}
                             </x-recipe-profile>
                         @else
-                            <x-recipe-profile profile="?">
+                            <x-recipe-profile username="?">
                                 Onbekende gebruiker
                             </x-recipe-profile>
                         @endempty
