@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Recipe extends Model
 {
-//    protected $fillable = [];
+    protected $fillable = [
+        'is_active',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

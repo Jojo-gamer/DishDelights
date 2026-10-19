@@ -113,4 +113,15 @@ class RecipeController extends Controller
         $recipe->delete();
         return to_route('dashboard');
     }
+
+    public function updateActiveState(Request $request, Recipe $recipe)
+    {
+        //auth
+
+        $recipe->update([
+            'is_active' => $request->boolean('is_active'),
+        ]);
+
+        return to_route('dashboard');
+    }
 }
