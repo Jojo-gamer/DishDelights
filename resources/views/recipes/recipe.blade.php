@@ -45,9 +45,20 @@
                 <div class="grid gap-10 py-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
                     <div class="min-w-0">
                         <h2 class="mb-3 text-2xl font-bold text-slate-900">Over dit recept</h2>
-                        <p class="text-base leading-7 text-slate-600">{{ $recipe->description }}</p>
+                        <p class="pb-5 text-base leading-7 text-slate-600">{{ $recipe->description }}</p>
 
-                        {{--                        ingredients--}}
+                        <h2 class="mb-4 text-2xl font-bold text-slate-900">Ingrediënten</h2>
+                        <ol class="grid gap-3">
+                            @foreach($recipe->ingredients as $ingredient)
+                                <li class="flex gap-3 text-slate-600">
+                                        <span
+                                            class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-800">
+                                            {{ $loop->iteration }}
+                                        </span>
+                                    <span class="pt-1 leading-6">{{ $ingredient->name }}, {{ $ingredient->pivot->amount }}</span>
+                                </li>
+                            @endforeach
+                        </ol>
                     </div>
                     <div>
                         <h2 class="mb-4 text-2xl font-bold text-slate-900">Bereidingswijze</h2>
