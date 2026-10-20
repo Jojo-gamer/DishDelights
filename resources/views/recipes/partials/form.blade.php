@@ -20,12 +20,14 @@
     <x-input-error :messages="$errors->get('prep_time')" class="mt-2"/>
 </div>
 
+@include('recipes.partials.ingredients-form')
+
 <div>
     <x-input-label for="instructions" :value="__('Instructions')"/>
     <textarea id="instructions" name="instructions" rows="8"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-300 dark:text-black"
     >{{ old('instructions', $recipe->instructions ?? '') }}</textarea>
-    <p class="mt-1 text-sm text-slate-500">Zet elke stap op een nieuwe regel.</p>
+    <x-form-instructions>Zet elke stap op een nieuwe regel.</x-form-instructions>
     <x-input-error :messages="$errors->get('instructions')" class="mt-2"/>
 </div>
 
@@ -36,7 +38,7 @@
     @endisset
     <x-text-input id="image" name="image" type="file"
                   accept="image/*" class="mt-1 block w-full"/>
-    <small>Laat leeg om de huidige afbeelding te behouden.</small>
+    <x-form-instructions>Laat leeg om de huidige afbeelding te behouden.</x-form-instructions>
     <x-input-error :messages="$errors->get('image_path')" class="mt-2"/>
 </div>
 
