@@ -44,7 +44,7 @@
             this.newIngredients = this.newIngredients.filter((ingredient) => ingredient.name !== name);
         }
     }"
-    class="grid gap-4"
+    class="grid gap-1"
 >
     <x-input-label for="ingredients" :value="__('Ingredients')" />
 
@@ -87,6 +87,7 @@
                     <button type="button" @click="removeIngredient(id)" class="text-left text-sm font-semibold text-indigo-500 transition hover:text-indigo-800 sm:text-center" aria-label="Verwijder ingredient">
                         Verwijder
                     </button>
+                    <x-input-error :messages="$errors->get('amounts')" class="mt-2"/>
                 </div>
             </template>
 
@@ -98,6 +99,7 @@
                     <button type="button" @click="removeNewIngredient(ingredient.name)" class="text-left text-sm font-semibold text-emerald-500 transition hover:text-emerald-800 sm:text-center" aria-label="Verwijder nieuw ingredient">
                         Verwijder
                     </button>
+                    <x-input-error :messages="$errors->get('new_amounts')" class="mt-2"/>
                 </div>
             </template>
         </div>
@@ -105,4 +107,5 @@
 
     <x-form-instructions>Kies een bestaand ingredient of voeg een nieuwe naam toe.</x-form-instructions>
     <x-input-error :messages="$errors->get('ingredients')" class="mt-2" />
+    <x-input-error :messages="$errors->get('new_ingredients')" class="mt-2"/>
 </div>

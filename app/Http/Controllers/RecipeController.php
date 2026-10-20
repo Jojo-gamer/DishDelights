@@ -59,13 +59,26 @@ class RecipeController extends Controller
 //        $image = Image::of('A donut sitting on the kitchen counter')->generate();
 //        $rawContent = (string) $image;
 
+//        dd($request);
+
         $request->validate([
             'name' => 'required|string|max:50',
             'description' => 'required|string|max:500',
             'prep_time' => 'required|integer|max_digits:3',
             'instructions' => 'required|string',
             'image' => 'required|image',
+
+            'ingredients' => 'array',
+            'new_ingredients' => 'array',
+            'amounts' => 'array',
+            'new_amounts' => 'array',
         ]);
+        foreach ($request->new_ingredients as $newIngredient) {
+            $ingredient = new Ingredient();
+            $ingredient->name = $newIngredient;
+            $ingredient->save();
+        }
+
         $recipe = new Recipe();
         $this->upload($request, $recipe);
 

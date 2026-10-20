@@ -32,14 +32,14 @@
 </div>
 
 <div>
-    <x-input-label for="image_path" :value="__('Image')"/>
+    <x-input-label for="image" :value="__('Image')"/>
     @isset($recipe->image_path)
         <img src="{{ asset('storage/' . $recipe->image_path) }}" alt="{{ $recipe->name }}" class="max-h-40">
     @endisset
     <x-text-input id="image" name="image" type="file"
                   accept="image/*" class="mt-1 block w-full"/>
     <x-form-instructions>Laat leeg om de huidige afbeelding te behouden.</x-form-instructions>
-    <x-input-error :messages="$errors->get('image_path')" class="mt-2"/>
+    <x-input-error :messages="$errors->get('image')" class="mt-2"/>
 </div>
 
 <div class="flex justify-end">
