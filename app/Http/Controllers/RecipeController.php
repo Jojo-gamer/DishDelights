@@ -78,8 +78,7 @@ class RecipeController extends Controller
 
         if ($request->has('ingredients')) {
             foreach ($request->ingredients as $ingredientId) {
-                $amount = $request->amounts.$ingredientId;
-
+                $amount = $request->amounts[$ingredientId];
                 $pivotData[$ingredientId] = ['amount' => $amount];
             }
         }
@@ -88,14 +87,14 @@ class RecipeController extends Controller
                 $newIngredientId = Ingredient::insertGetId(
                     ['name' => $newIngredientName]
                 );
-                $amount = $request->new_amounts.$index;
+                $amount = $request->new_amounts[$index];
                 $pivotData[$newIngredientId] = ['amount' => $amount];
             }
         }
 
         $recipe = new Recipe();
-        $recipe->ingredients()->sync($pivotData);
         $this->upload($request, $recipe);
+        $recipe->ingredients()->sync($pivotData);
 
         return to_route('dashboard');
     }
