@@ -59,8 +59,6 @@ class RecipeController extends Controller
 //        $image = Image::of('A donut sitting on the kitchen counter')->generate();
 //        $rawContent = (string) $image;
 
-//        dd($request);
-
         $request->validate([
             'name' => 'required|string|max:50',
             'description' => 'required|string|max:500',
@@ -113,8 +111,9 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe)
     {
+        $ingredients = Ingredient::all();
         $recipe->instructions = Collection::fromJson($recipe->instructions)->implode("\r\n");
-        return view('recipes.edit', compact('recipe'));
+        return view('recipes.edit', compact('recipe', 'ingredients'));
     }
 
     /**
