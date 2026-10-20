@@ -73,13 +73,28 @@ class RecipeController extends Controller
             'amounts' => 'array',
             'new_amounts' => 'array',
         ]);
-        foreach ($request->new_ingredients as $newIngredient) {
-            $ingredient = new Ingredient();
-            $ingredient->name = $newIngredient;
-            $ingredient->save();
+
+        $pivotData = [];
+
+        if ($request->has('ingredients')) {
+            foreach ($request->ingredients as $ingredientId) {
+                $amount = $request->amounts.$ingredientId;
+
+                $pivotData[$ingredientId] = ['amount' => $amount];
+            }
+        }
+        if ($request->has('new_ingredients')) {
+            foreach ($request->new_ingredients as $index => $newIngredientName) {
+                $newIngredientId = Ingredient::insertGetId(
+                    ['name' => $newIngredientName]
+                );
+                $amount = $request->new_amounts.$index;
+                $pivotData[$newIngredientId] = ['amount' => $amount];
+            }
         }
 
         $recipe = new Recipe();
+        $recipe->ingredients()->sync($pivotData);
         $this->upload($request, $recipe);
 
         return to_route('dashboard');

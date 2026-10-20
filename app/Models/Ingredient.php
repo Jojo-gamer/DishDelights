@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Ingredient extends Model
 {
+    protected $fillable = [
+        'name',
+    ];
+
     public function recipes(): BelongsToMany
     {
         return $this->belongsToMany(Recipe::class);
