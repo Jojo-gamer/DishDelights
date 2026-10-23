@@ -18,6 +18,9 @@ Route::middleware('auth')->group(function () {
         ->name('recipes.active');
 });
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/admin', function () {
+    return 'Admin page';
+})->can('admin')->name('admin');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
