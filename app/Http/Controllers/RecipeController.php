@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class RecipeController extends Controller
@@ -113,14 +114,11 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe)
     {
-        if(Auth::id() === $recipe->user->id) {
-            $ingredients = Ingredient::all();
-            $recipe->instructions = Collection::fromJson($recipe->instructions)->implode("\r\n");
-            return view('recipes.edit', compact('recipe', 'ingredients'));
-        }
-        else {
-            return to_route('dashboard');
-        }
+        Gate::authorize('edit', $recipe);
+
+        $ingredients = Ingredient::all();
+        $recipe->instructions = Collection::fromJson($recipe->instructions)->implode("\r\n");
+        return view('recipes.edit', compact('recipe', 'ingredients'));
     }
 
     /**
