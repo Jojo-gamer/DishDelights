@@ -93,6 +93,8 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
+        Gate::authorize('show', $recipe);
+
         $recipe->instructions = Collection::fromJson($recipe->instructions);
         return view('recipes.recipe', compact('recipe'));
     }
@@ -114,7 +116,7 @@ class RecipeController extends Controller
      */
     public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
-        Gate::authorize('specific-user', $recipe);
+        Gate::authorize('specificUser', $recipe);
 
         $data = $this->recipeData($request);
         if ($request->hasFile('image')) {
@@ -137,7 +139,7 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
-        Gate::authorize('specific-user', $recipe);
+        Gate::authorize('specificUser', $recipe);
 
         Storage::disk('public')->delete($recipe->image_path);
         $recipe->delete();
@@ -146,7 +148,7 @@ class RecipeController extends Controller
 
     public function updateActiveState(Request $request, Recipe $recipe)
     {
-        Gate::authorize('specific-user', $recipe);
+        Gate::authorize('specificUser', $recipe);
 
         $recipe->update([
             'is_active' => $request->boolean('is_active'),
