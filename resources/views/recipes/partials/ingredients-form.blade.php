@@ -111,11 +111,6 @@
                         Verwijder
                     </button>
                     <x-input-error :messages="$errors->get('amounts')" class="mt-2"/>
-                    <x-input-error :messages="$errors->get('amounts.${id}')" class="mt-2"/>
-{{--                    @forelse($errors->get('amounts.*') as $amount)--}}
-{{--                        <x-input-error :messages="$amount" class="mt-2"/>--}}
-{{--                    @empty--}}
-{{--                    @endforelse--}}
                 </div>
             </template>
 
@@ -136,4 +131,6 @@
     <x-form-instructions>Kies een bestaand ingredient of voeg een nieuwe naam toe.</x-form-instructions>
     <x-input-error :messages="$errors->get('ingredients')" class="mt-2" />
     <x-input-error :messages="$errors->get('new_ingredients')" class="mt-2"/>
+    <x-input-error :messages="@array_first($errors->get('amounts.*'))" class="mt-2"/>
+    <x-input-error :messages="@array_first($errors->get('new_amounts.*'))" class="mt-2"/>
 </div>

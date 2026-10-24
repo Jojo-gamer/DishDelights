@@ -36,7 +36,15 @@ class StoreRecipeRequest extends FormRequest
             'amounts' => 'required|array',
             'amounts.*' => 'filled|string',
             'new_amounts' => 'array',
-            'new_amounts*' => 'filled',
+            'new_amounts.*' => 'filled',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'amounts.*' => 'Alle amounts moeten worden ingevuld',
+            'new_amounts.*' => 'Alle amounts moeten worden ingevuld',
         ];
     }
 }
