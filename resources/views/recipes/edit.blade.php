@@ -7,7 +7,7 @@
                 @csrf
                 @method('PATCH')
 
-                @include('recipes.partials.form', ['submitText' => 'Bewerking opslaan'])
+                @include('recipes.partials.form', ['submitText' => 'Bewerking opslaan', 'page' => 'edit'])
             </form>
         </div>
     </div>

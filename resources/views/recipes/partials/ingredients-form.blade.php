@@ -1,9 +1,32 @@
+@php
+    $existingIngredients = isset($recipe) ? $recipe->ingredients : collect();
+    $defaultSelectedIngredients = $existingIngredients
+        ->pluck('id')
+        ->map(fn ($id) => (string) $id)
+        ->values()
+        ->all();
+    $selectedIngredients = collect(old('ingredients', $defaultSelectedIngredients))
+        ->map(fn ($id) => (string) $id)
+        ->values()
+        ->all();
+    $defaultAmounts = $existingIngredients->mapWithKeys(
+        fn ($ingredient) => [(string) $ingredient->id => $ingredient->pivot->amount],
+    )->all();
+    $newIngredients = collect(old('new_ingredients', []))
+        ->values()
+        ->map(fn ($name, $index) => [
+            'name' => $name,
+            'amount' => old('new_amounts', [])[$index] ?? '',
+        ])
+        ->all();
+@endphp
+
 <div
     x-data="{
-        selected: @js(collect(old('ingredients', []))->map(fn ($id) => (string) $id)->values()),
-        selectedNames: @js(collect(old('ingredients', []))->mapWithKeys(fn ($id) => [(string) $id => $ingredients->firstWhere('id', $id)?->name])->filter()),
-        newIngredients: [],
-        amounts: @js(old('amounts', [])),
+        selected: @js($selectedIngredients),
+        selectedNames: @js(collect($selectedIngredients)->mapWithKeys(fn ($id) => [(string) $id => $ingredients->firstWhere('id', $id)?->name])->filter()),
+        newIngredients: @js($newIngredients),
+        amounts: @js(old('amounts', $defaultAmounts)),
         choice: '',
         newName: '',
         newAmount: '',
