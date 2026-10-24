@@ -83,7 +83,7 @@ class RecipeController extends Controller
         $recipe = Recipe::create($data);
 
         $pivotData = $this->getPivotData($request);
-        $recipe->ingredients()->sync($pivotData);
+        $recipe->ingredients()->attach($pivotData);
 
         return to_route('dashboard');
     }
