@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Ingredient;
 use App\Models\Recipe;
@@ -56,29 +57,12 @@ class RecipeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRecipeRequest $request)
     {
 //        AI IMAGE IF NO UPLOAD???
 //        use Laravel\Ai\Image;
 //        $image = Image::of('A donut sitting on the kitchen counter')->generate();
 //        $rawContent = (string) $image;
-
-        $request->validate([
-            'name' => 'required|string|min:10|max:50',
-            'description' => 'required|string|min:50|max:500',
-            'prep_time' => 'required|integer|max_digits:3',
-            'instructions' => 'required|string|min:50',
-            'image' => 'required|image',
-
-            'ingredients' => 'array',
-            'ingredients.*' => 'filled',
-            'new_ingredients' => 'array',
-            'new_ingredients.*' => 'filled',
-            'amounts' => 'array',
-            'amounts.*' => 'filled|string',
-            'new_amounts' => 'array',
-            'new_amounts*' => 'filled',
-        ]);
 
         $pivotData = [];
 
@@ -131,9 +115,14 @@ class RecipeController extends Controller
      */
     public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
-        Storage::disk('public')->delete($recipe->image_path);
+        Gate::authorize('specific-user', $recipe);
+
+        $oldImagePath = $recipe->image_path;
         $this->upload($request, $recipe);
 
+        if ($request->hasFile('image') && $oldImagePath) {
+            Storage::disk('public')->delete($oldImagePath);
+        }
         return to_route('dashboard');
     }
 
@@ -142,6 +131,8 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
+        Gate::authorize('specific-user', $recipe);
+
         Storage::disk('public')->delete($recipe->image_path);
         $recipe->delete();
         return to_route('dashboard');
@@ -149,7 +140,7 @@ class RecipeController extends Controller
 
     public function updateActiveState(Request $request, Recipe $recipe)
     {
-        //auth
+        Gate::authorize('specific-user', $recipe);
 
         $recipe->update([
             'is_active' => $request->boolean('is_active'),

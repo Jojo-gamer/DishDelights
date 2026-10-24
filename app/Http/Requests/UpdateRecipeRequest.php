@@ -29,11 +29,11 @@ class UpdateRecipeRequest extends FormRequest
             'instructions' => 'required|string|min:50',
             'image' => 'image',
 
-            'ingredients' => 'array',
+            'ingredients' => 'required|array',
             'ingredients.*' => 'filled',
             'new_ingredients' => 'array',
             'new_ingredients.*' => 'filled',
-            'amounts' => 'array',
+            'amounts' => 'required|array',
             'amounts.*' => 'filled|string',
             'new_amounts' => 'array',
             'new_amounts*' => 'filled',

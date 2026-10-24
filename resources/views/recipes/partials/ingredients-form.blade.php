@@ -111,6 +111,11 @@
                         Verwijder
                     </button>
                     <x-input-error :messages="$errors->get('amounts')" class="mt-2"/>
+                    <x-input-error :messages="$errors->get('amounts.${id}')" class="mt-2"/>
+{{--                    @forelse($errors->get('amounts.*') as $amount)--}}
+{{--                        <x-input-error :messages="$amount" class="mt-2"/>--}}
+{{--                    @empty--}}
+{{--                    @endforelse--}}
                 </div>
             </template>
 
