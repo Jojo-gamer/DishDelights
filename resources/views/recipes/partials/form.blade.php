@@ -1,3 +1,8 @@
+@props([
+    'submitText',
+    'page' => ''
+])
+
 <div>
     <x-input-label for="name" :value="__('Name')"/>
     <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
@@ -38,7 +43,9 @@
     @endisset
     <x-text-input id="image" name="image" type="file"
                   accept="image/*" class="mt-1 block w-full"/>
-    <x-form-instructions>Laat leeg om de huidige afbeelding te behouden.</x-form-instructions>
+    @if($page === "edit")
+        <x-form-instructions>Laat leeg om de huidige afbeelding te behouden.</x-form-instructions>
+    @endif
     <x-input-error :messages="$errors->get('image')" class="mt-2"/>
 </div>
 
