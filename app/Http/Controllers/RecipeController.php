@@ -17,20 +17,35 @@ use phpDocumentor\Reflection\DocBlock\Tags\Author;
 class RecipeController extends Controller
 {
     // function for store & update
-    private function upload($request, $recipe)
+    private function recipeData($request) :array
     {
-        $recipe->name = $request->input('name');
-        $recipe->description = $request->input('description');
-        $recipe->prep_time = $request->input('prep_time');
-        $instructions = $request->input('instructions');
-        $recipe->instructions = str($instructions)->split('/\r\n|\r|\n/')->toJson();
-        if ($request->hasFile('image')) {
-            $recipe->image_path = $request->file('image')->storePublicly('recipes', 'public');
+        $data = $request->validated();
+        $data['instructions'] = str($data['instructions'])
+            ->split('/\r\n|\r|\n/')
+            ->toJson();
+        $data['user_id'] = auth()->id();
+        $data['status'] = 'pending';
+        $data['is_active'] = true;
+
+        return $data;
+    }
+
+    private function getPivotData($request) {
+        $pivotData = [];
+        foreach ($request->ingredients as $ingredientId) {
+            $amount = $request->amounts[$ingredientId];
+            $pivotData[$ingredientId] = ['amount' => $amount];
         }
-        $recipe->status = "pending";
-        $recipe->is_active = true;
-        $recipe->user_id = auth()->id();
-        $recipe->save();
+        if ($request->has('new_ingredients')) {
+            foreach ($request->new_ingredients as $index => $newIngredientName) {
+                $newIngredientId = Ingredient::insertGetId(
+                    ['name' => $newIngredientName]
+                );
+                $amount = $request->new_amounts[$index];
+                $pivotData[$newIngredientId] = ['amount' => $amount];
+            }
+        }
+        return $pivotData;
     }
 
     /**
@@ -59,31 +74,15 @@ class RecipeController extends Controller
      */
     public function store(StoreRecipeRequest $request)
     {
+        $data = $this->recipeData($request);
 //        AI IMAGE IF NO UPLOAD???
 //        use Laravel\Ai\Image;
 //        $image = Image::of('A donut sitting on the kitchen counter')->generate();
 //        $rawContent = (string) $image;
+        $data['image_path'] = $request->file('image')->storePublicly('recipes', 'public');
+        $recipe = Recipe::create($data);
 
-        $pivotData = [];
-
-        if ($request->has('ingredients')) {
-            foreach ($request->ingredients as $ingredientId) {
-                $amount = $request->amounts[$ingredientId];
-                $pivotData[$ingredientId] = ['amount' => $amount];
-            }
-        }
-        if ($request->has('new_ingredients')) {
-            foreach ($request->new_ingredients as $index => $newIngredientName) {
-                $newIngredientId = Ingredient::insertGetId(
-                    ['name' => $newIngredientName]
-                );
-                $amount = $request->new_amounts[$index];
-                $pivotData[$newIngredientId] = ['amount' => $amount];
-            }
-        }
-
-        $recipe = new Recipe();
-        $this->upload($request, $recipe);
+        $pivotData = $this->getPivotData($request);
         $recipe->ingredients()->sync($pivotData);
 
         return to_route('dashboard');
@@ -117,12 +116,19 @@ class RecipeController extends Controller
     {
         Gate::authorize('specific-user', $recipe);
 
-        $oldImagePath = $recipe->image_path;
-        $this->upload($request, $recipe);
+        $data = $this->recipeData($request);
+        if ($request->hasFile('image')) {
+            $oldImagePath = $recipe->image_path;
+            $data['image_path'] = $request->file('image')->storePublicly('recipes', 'public');
 
-        if ($request->hasFile('image') && $oldImagePath) {
+            $recipe->update($data);
             Storage::disk('public')->delete($oldImagePath);
+        } else {
+            $recipe->update($data);
         }
+        $pivotData = $this->getPivotData($request);
+        $recipe->ingredients()->sync($pivotData);
+
         return to_route('dashboard');
     }
 

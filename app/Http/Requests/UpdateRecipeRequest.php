@@ -43,7 +43,8 @@ class UpdateRecipeRequest extends FormRequest
     public function messages()
     {
         return [
-            'amounts.*' => 'Alle amounts moeten worden ingevuld'
+            'amounts.*' => 'Alle amounts moeten worden ingevuld',
+            'new_amounts.*' => 'Alle amounts moeten worden ingevuld',
         ];
     }
 }

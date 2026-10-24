@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Recipe extends Model
 {
     protected $fillable = [
+        'name',
+        'description',
+        'prep_time',
+        'instructions',
+        'image_path',
+        'user_id',
+        'status',
         'is_active',
     ];
 
