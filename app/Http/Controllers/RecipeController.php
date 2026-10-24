@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class RecipeController extends Controller
@@ -22,7 +24,6 @@ class RecipeController extends Controller
         $instructions = $request->input('instructions');
         $recipe->instructions = str($instructions)->split('/\r\n|\r|\n/')->toJson();
         if ($request->hasFile('image')) {
-            //DELETE VORIGE IMAGE???
             $recipe->image_path = $request->file('image')->storePublicly('recipes', 'public');
         }
         $recipe->status = "pending";
@@ -63,16 +64,20 @@ class RecipeController extends Controller
 //        $rawContent = (string) $image;
 
         $request->validate([
-            'name' => 'required|string|max:50',
-            'description' => 'required|string|max:500',
+            'name' => 'required|string|min:10|max:50',
+            'description' => 'required|string|min:50|max:500',
             'prep_time' => 'required|integer|max_digits:3',
-            'instructions' => 'required|string',
+            'instructions' => 'required|string|min:50',
             'image' => 'required|image',
 
             'ingredients' => 'array',
+            'ingredients.*' => 'filled',
             'new_ingredients' => 'array',
+            'new_ingredients.*' => 'filled',
             'amounts' => 'array',
+            'amounts.*' => 'filled|string',
             'new_amounts' => 'array',
+            'new_amounts*' => 'filled',
         ]);
 
         $pivotData = [];
@@ -114,7 +119,7 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe)
     {
-        Gate::authorize('edit', $recipe);
+        Gate::authorize('specificUser', $recipe);
 
         $ingredients = Ingredient::all();
         $recipe->instructions = Collection::fromJson($recipe->instructions)->implode("\r\n");
@@ -124,15 +129,9 @@ class RecipeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Recipe $recipe)
+    public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
-        $request->validate([
-            'name' => 'required|string|max:50',
-            'description' => 'required|string|max:500',
-            'prep_time' => 'required|integer|max_digits:3',
-            'instructions' => 'required|string',
-            'image' => 'image',
-        ]);
+        Storage::disk('public')->delete($recipe->image_path);
         $this->upload($request, $recipe);
 
         return to_route('dashboard');
@@ -143,6 +142,7 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
+        Storage::disk('public')->delete($recipe->image_path);
         $recipe->delete();
         return to_route('dashboard');
     }

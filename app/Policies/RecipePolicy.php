@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\Response;
 
 class RecipePolicy
 {
-    public function edit(User $user, Recipe $recipe): bool
+    public function specificUser(User $user, Recipe $recipe): bool
     {
 //        return $user->id === $recipe->user_id;
         return $user->is($recipe->user);
