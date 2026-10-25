@@ -19,13 +19,12 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/admin', function () {
-    return 'Admin page';
+    return 'Admin page';    //temporary, later also gonna use controller
 })->can('admin')->name('admin');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/about-us', [AboutController::class, 'index'])->name('about');
 Route::resource('recipes', RecipeController::class)->only(['index', 'show']);
-
 
 require __DIR__.'/auth.php';

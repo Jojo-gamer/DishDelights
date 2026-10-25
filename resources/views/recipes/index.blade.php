@@ -1,13 +1,9 @@
 <x-app-layout title="Recipes">
     <div class="bg-slate-200 px-4 py-12 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl">
-            <div class="flex justify-between align-center mb-6">
-                <h1 class="mb-8 text-3xl font-bold text-slate-900">Recepten</h1>
-{{--                            <x-slot name="header">--}}
-{{--                                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">--}}
-{{--                                    {{ __('Recepten') }}--}}
-{{--                                </h2>--}}
-{{--                            </x-slot>--}}
+            <div class="flex justify-between align-center mb-12">
+                <h1 class="text-3xl font-bold text-slate-900">Recepten</h1>
+                @include('recipes.partials.search-form')
                 @include('recipes.partials.create-recipe-button')
             </div>
 

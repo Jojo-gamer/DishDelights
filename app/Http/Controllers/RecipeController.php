@@ -6,18 +6,16 @@ use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Ingredient;
 use App\Models\Recipe;
-use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class RecipeController extends Controller
 {
     // function for store & update
-    private function recipeData($request) :array
+    private function recipeData($request): array
     {
         $data = $request->validated();
         $data['instructions'] = str($data['instructions'])
@@ -30,7 +28,8 @@ class RecipeController extends Controller
         return $data;
     }
 
-    private function getPivotData($request) {
+    private function getPivotData($request)
+    {
         $pivotData = [];
         foreach ($request->ingredients as $ingredientId) {
             $amount = $request->amounts[$ingredientId];
@@ -51,12 +50,21 @@ class RecipeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->input('q');
+
         $recipes = Recipe::where([
             ['status', 'approved'],
             ['is_active', true],
-        ])->get();
+        ])->when($query, function (Builder $builder, string $query) {
+            $builder->whereAny([
+                'name',
+                'description',
+            ], 'like', "%{$query}%");
+        })
+        ->get();
+
         return view('recipes.index', compact('recipes'));
     }
 
