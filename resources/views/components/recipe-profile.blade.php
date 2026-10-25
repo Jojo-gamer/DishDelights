@@ -1,6 +1,6 @@
 @props([
     'username',
-    'profilePicture'
+    'profilePicture' => null
 ])
 @unless($profilePicture == null || $profilePicture == "")
     <div class="h-12 w-12 overflow-hidden rounded-full bg-gray-200">
