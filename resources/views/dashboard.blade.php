@@ -1,7 +1,7 @@
 <x-app-layout title="Dashboard">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('User Dashboard') }}
         </h2>
     </x-slot>
 
@@ -22,6 +22,7 @@
                         <thead class="bg-slate-50">
                         <tr class="text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
                             <th scope="col" class="px-6 py-4">Status</th>
+                            <th scope="col" class="px-6 py-4">Upload datum</th>
                             <th scope="col" class="px-6 py-4">Recept</th>
                             <th scope="col" class="px-6 py-4">Bewerken</th>
                             <th scope="col" class="px-6 py-4">Actief</th>
@@ -35,6 +36,15 @@
                                         class="inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize">
                                         {{ $recipe->status }}
                                     </x-status-pill>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-5">
+                                    <div class="flex items-center gap-2">
+                                        <a
+                                            href=""
+                                        >
+                                            {{ $recipe->created_at->format('d-m-Y') }}
+                                        </a>
+                                    </div>
                                 </td>
                                 <td class="min-w-72 px-6 py-5">
                                     <div class="flex items-center gap-4">

@@ -13,7 +13,7 @@ class AdminController extends Controller
         $recipes = Recipe::where([
             'status' => 'pending'
         ])
-            ->orderBy('created_at')
+            ->orderByDesc('created_at')
             ->get();
         return view('admin', compact('recipes'));
     }
