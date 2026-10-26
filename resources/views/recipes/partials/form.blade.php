@@ -38,8 +38,8 @@
             <option value="" disabled class="p-2">-- Kies een categorie --</option>
             @foreach($categories as $category)
                 <option value="{{ $category->id }}"
-                        @php $currentCategories = $recipe->categories->pluck('id')->toArray(); @endphp
-                        @selected(in_array($category->id, old('categories', $currentCategories ?? [])))
+                        @php $currentCategories = isset($recipe) ? $recipe->categories->pluck('id')->toArray() : []; @endphp
+                        @selected(in_array($category->id, old('categories', $currentCategories)))
                         class="pl-3 py-0.5">{{ $category->name }}
                 </option>
             @endforeach
