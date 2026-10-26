@@ -36,13 +36,13 @@
                 <div class="flex justify-between items-center border-b border-slate-200 py-3">
                     <div class="flex items-center gap-3 ">
                         @isset($recipe->user)
-                            <x-recipe-profile username="{{ $recipe->user->name }}" profilePicture="{{ $recipe->user->image_path }}">
-                                {{ $recipe->user->name }}
-                            </x-recipe-profile>
+                            <x-user-profile username="{{ $recipe->user->name }}" profilePicture="{{ $recipe->user->image_path }}">
+                                {{ $recipe->user->name }} @if($recipe->user->is(auth()->user()))(Ik)@endif
+                            </x-user-profile>
                         @else
-                            <x-recipe-profile username="?">
+                            <x-user-profile username="?">
                                 Onbekende gebruiker
-                            </x-recipe-profile>
+                            </x-user-profile>
                         @endempty
                     </div>
                     <div class="self-start rounded-2xl bg-slate-100 px-5 py-3">

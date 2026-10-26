@@ -64,13 +64,13 @@
                                 <td class="min-w-72 px-6 py-5">
                                     <div class="flex items-center gap-4">
                                         @isset($recipe->user)
-                                            <x-recipe-profile username="{{ $recipe->user->name }}" profilePicture="{{ $recipe->user->image_path }}">
-                                                {{ $recipe->user->name }}
-                                            </x-recipe-profile>
+                                            <x-user-profile username="{{ $recipe->user->name }}" profilePicture="{{ $recipe->user->image_path }}">
+                                                {{ $recipe->user->name }} @if($recipe->user->is(auth()->user()))(Ik)@endif
+                                            </x-user-profile>
                                         @else
-                                            <x-recipe-profile username="?">
+                                            <x-user-profile username="?">
                                                 Onbekende gebruiker
-                                            </x-recipe-profile>
+                                            </x-user-profile>
                                         @endempty
                                     </div>
                                 </td>
