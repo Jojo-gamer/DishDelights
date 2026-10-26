@@ -1,13 +1,13 @@
-<form method="get" action="{{ route('recipes.index') }}">
+<form method="get" action="{{ route('recipes.index') }}" class="flex gap-2">
     <select
         id="f"
         name="f"
-        class="category-select block w-full rounded-md border-gray-300 bg-white p-0 text-slate-900 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+        class="category-select block w-28 rounded-md border-gray-300 bg-white p-0 pl-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
     >
-        <option value="" class="p-2">-- Geen Filter --</option>
+        <option value="" class="p-2">- NONE -</option>
         @foreach($categories as $category)
             <option value="{{ $category->id }}"
-{{--                    @selected(in_array($category->id, request('f')))--}}
+{{--    misschien voor meerdere filters:                @selected(in_array($category->id, request('f')))--}}
                     @selected($category->id == request('f'))
                     class="pl-3 py-0.5">{{ $category->name }}
             </option>
