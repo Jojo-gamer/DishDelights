@@ -55,20 +55,29 @@ class RecipeController extends Controller
      */
     public function index(Request $request)
     {
+        $categories = Category::all();
+
         $query = $request->input('q');
+        $filter = $request->input('f');
 
         $recipes = Recipe::where([
             ['status', 'approved'],
             ['is_active', true],
-        ])->when($query, function (Builder $builder, string $query) {
-            $builder->whereAny([
-                'name',
-                'description',
-            ], 'like', "%{$query}%");
-        })
-        ->get();
+        ])
+            ->when($query, function (Builder $builder, string $query) {
+                $builder->whereAny([
+                    'name',
+                    'description',
+                ], 'like', "%{$query}%");
+            })
+            ->when($filter, function (Builder $builder, string $filter) {
+                $builder->whereHas('categories', function ($f) use ($filter) {
+                    $f->where('id', $filter);
+                });
+            })
+            ->get();
 
-        return view('recipes.index', compact('recipes'));
+        return view('recipes.index', compact('recipes', 'categories'));
     }
 
     /**
