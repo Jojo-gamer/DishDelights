@@ -16,6 +16,18 @@
                         {{ $recipe->name }}
                     </h1>
 
+                    <div
+                        x-data
+                        @wheel.prevent="$el.scrollLeft += $event.deltaY"
+                        class="category-scrollbar flex max-w-80 h-14 shrink-0 scroll-smooth items-center gap-2 self-center overflow-x-auto overscroll-x-contain px-1"
+                    >
+                        @foreach($recipe->categories as $category)
+                            <span class="shrink-0 whitespace-nowrap rounded-xl bg-gray-800 border border-gray-700 px-3 py-1 text-sm font-medium text-gray-300">
+                                {{ $category->name }}
+                            </span>
+                        @endforeach
+                    </div>
+
                     <div class="shrink-0 rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-800">
                         {{ $recipe->prep_time }} min voorbereiding
                     </div>

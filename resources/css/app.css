@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .category-select option:checked {
+        background-color: theme('colors.emerald.400');
+        color: theme('colors.emerald.950');
+    }
+
+    .category-scrollbar {
+        scrollbar-color: theme('colors.emerald.300') transparent;
+        scrollbar-width: thin;
+    }
+
+    .category-scrollbar::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .category-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .category-scrollbar::-webkit-scrollbar-thumb {
+        background-color: theme('colors.emerald.300');
+        border-radius: 9999px;
+    }
+
+    .category-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: theme('colors.emerald.500');
+    }
+}

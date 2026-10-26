@@ -33,7 +33,7 @@
             id="categories"
             name="categories[]"
             multiple
-            class="p-0 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border-gray-700 bg-gray-300 text-black"
+            class="category-select block w-full rounded-md border-gray-300 bg-white p-0 text-slate-900 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
         >
             <option value="" disabled class="p-2">-- Kies een categorie --</option>
             @foreach($categories as $category)

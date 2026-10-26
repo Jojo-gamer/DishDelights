@@ -18,7 +18,7 @@ class RecipePolicy
     {
         if ($recipe->status === 'approved' && $recipe->is_active) {
             return true;
-        } elseif ($user !== null && $user->is($recipe->user)) {
+        } elseif ($user !== null && ($user->is($recipe->user) || $user->can('admin'))) {
             return true;
         }
         return false;
