@@ -27,6 +27,23 @@
 
 @include('recipes.partials.ingredients-form')
 
+<div class="grid gap-1">
+    <x-input-label for="categories" :value="__('Categories')" />
+
+    <div class="grid gap-3 rounded-xl border border-gray-300 bg-gray-50 p-1">
+        <select
+            id="categories"
+            multiple
+            class="block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-300 dark:text-black"
+        >
+            <option value="" disabled>-- Kies een categorie --</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->id }}" class="p-0.5">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+
 <div>
     <x-input-label for="instructions" :value="__('Instructions')"/>
     <textarea id="instructions" name="instructions" rows="8"

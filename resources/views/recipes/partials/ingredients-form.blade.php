@@ -80,7 +80,7 @@
                 @change="addIngredient"
                 class="block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-300 dark:text-black"
             >
-                <option value="">Kies een ingredient...</option>
+                <option value="">-- Kies een ingredient --</option>
                 @foreach($ingredients as $ingredient)
                     <option
                         value="{{ $ingredient->id }}"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
+use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Builder;
@@ -74,7 +75,8 @@ class RecipeController extends Controller
     public function create()
     {
         $ingredients = Ingredient::all();
-        return view('recipes.create', compact('ingredients'));
+        $categories = Category::all();
+        return view('recipes.create', compact('ingredients', 'categories'));
     }
 
     /**
