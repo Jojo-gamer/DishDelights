@@ -96,6 +96,8 @@ class RecipeController extends Controller
 
         $pivotData = $this->getPivotDataIngredients($request);
         $recipe->ingredients()->attach($pivotData);
+        $categoryIds = $request->categories;
+        $recipe->categories()->attach($categoryIds);
 
         return to_route('dashboard');
     }
@@ -144,6 +146,8 @@ class RecipeController extends Controller
         }
         $pivotDataIngredients = $this->getPivotDataIngredients($request);
         $recipe->ingredients()->sync($pivotDataIngredients);
+        $categoryIds = $request->categories;
+        $recipe->categories()->sync($categoryIds);
 
         return to_route('dashboard');
     }
