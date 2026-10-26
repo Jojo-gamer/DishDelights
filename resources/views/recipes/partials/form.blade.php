@@ -28,20 +28,26 @@
 @include('recipes.partials.ingredients-form')
 
 <div class="grid gap-1">
-    <x-input-label for="categories" :value="__('Categories')" />
-
     <div class="grid gap-3 rounded-xl border border-gray-300 bg-gray-50 p-1">
         <select
             id="categories"
+            name="categories[]"
             multiple
-            class="block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-300 dark:text-black"
+            class="p-0 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border-gray-700 bg-gray-300 text-black"
         >
-            <option value="" disabled>-- Kies een categorie --</option>
+            <option value="" disabled class="p-2">-- Kies een categorie --</option>
             @foreach($categories as $category)
-                <option value="{{ $category->id }}" class="p-0.5">{{ $category->name }}</option>
+                <option value="{{ $category->id }}"
+                        @php $currentCategories = $recipe->categories->pluck('id')->toArray(); @endphp
+                        @selected(in_array($category->id, old('categories', $currentCategories ?? [])))
+                        class="pl-3 py-0.5">{{ $category->name }}
+                </option>
             @endforeach
         </select>
     </div>
+    <x-form-instructions>Kies meerdere categoriën door ctrl ingedrukt te houden</x-form-instructions>
+    <x-input-error :messages="$errors->get('categories')" class="mt-2"/>
+    <x-input-error :messages="@array_first($errors->get('categories.*'))" class="mt-2"/>
 </div>
 
 <div>

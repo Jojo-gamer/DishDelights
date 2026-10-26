@@ -29,12 +29,14 @@ class RecipeController extends Controller
         return $data;
     }
 
-    private function getPivotData($request)
+    private function getPivotDataIngredients($request)
     {
         $pivotData = [];
-        foreach ($request->ingredients as $ingredientId) {
-            $amount = $request->amounts[$ingredientId];
-            $pivotData[$ingredientId] = ['amount' => $amount];
+        if ($request->has('ingredients')) {
+            foreach ($request->ingredients as $ingredientId) {
+                $amount = $request->amounts[$ingredientId];
+                $pivotData[$ingredientId] = ['amount' => $amount];
+            }
         }
         if ($request->has('new_ingredients')) {
             foreach ($request->new_ingredients as $index => $newIngredientName) {
@@ -92,7 +94,7 @@ class RecipeController extends Controller
         $data['image_path'] = $request->file('image')->storePublicly('recipes', 'public');
         $recipe = Recipe::create($data);
 
-        $pivotData = $this->getPivotData($request);
+        $pivotData = $this->getPivotDataIngredients($request);
         $recipe->ingredients()->attach($pivotData);
 
         return to_route('dashboard');
@@ -117,8 +119,10 @@ class RecipeController extends Controller
         Gate::authorize('specificUser', $recipe);
 
         $ingredients = Ingredient::all();
+        $categories = Category::all();
+
         $recipe->instructions = Collection::fromJson($recipe->instructions)->implode("\r\n");
-        return view('recipes.edit', compact('recipe', 'ingredients'));
+        return view('recipes.edit', compact('recipe', 'ingredients', 'categories'));
     }
 
     /**
@@ -138,8 +142,8 @@ class RecipeController extends Controller
         } else {
             $recipe->update($data);
         }
-        $pivotData = $this->getPivotData($request);
-        $recipe->ingredients()->sync($pivotData);
+        $pivotDataIngredients = $this->getPivotDataIngredients($request);
+        $recipe->ingredients()->sync($pivotDataIngredients);
 
         return to_route('dashboard');
     }
