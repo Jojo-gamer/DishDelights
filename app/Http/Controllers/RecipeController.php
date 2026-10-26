@@ -28,25 +28,6 @@ class RecipeController extends Controller
         return $data;
     }
 
-    private function getPivotData($request)
-    {
-        $pivotData = [];
-        foreach ($request->ingredients as $ingredientId) {
-            $amount = $request->amounts[$ingredientId];
-            $pivotData[$ingredientId] = ['amount' => $amount];
-        }
-        if ($request->has('new_ingredients')) {
-            foreach ($request->new_ingredients as $index => $newIngredientName) {
-                $newIngredientId = Ingredient::insertGetId(
-                    ['name' => $newIngredientName]
-                );
-                $amount = $request->new_amounts[$index];
-                $pivotData[$newIngredientId] = ['amount' => $amount];
-            }
-        }
-        return $pivotData;
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -73,7 +54,7 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        $ingredients = Ingredient::all();
+        $ingredients = IngredientController::index();
         return view('recipes.create', compact('ingredients'));
     }
 
@@ -90,7 +71,7 @@ class RecipeController extends Controller
         $data['image_path'] = $request->file('image')->storePublicly('recipes', 'public');
         $recipe = Recipe::create($data);
 
-        $pivotData = $this->getPivotData($request);
+        $pivotData = IngredientController::getPivotData($request);
         $recipe->ingredients()->attach($pivotData);
 
         return to_route('dashboard');
@@ -114,7 +95,7 @@ class RecipeController extends Controller
     {
         Gate::authorize('specificUser', $recipe);
 
-        $ingredients = Ingredient::all();
+        $ingredients = IngredientController::index();
         $recipe->instructions = Collection::fromJson($recipe->instructions)->implode("\r\n");
         return view('recipes.edit', compact('recipe', 'ingredients'));
     }
@@ -136,7 +117,7 @@ class RecipeController extends Controller
         } else {
             $recipe->update($data);
         }
-        $pivotData = $this->getPivotData($request);
+        $pivotData = IngredientController::getPivotData($request);
         $recipe->ingredients()->sync($pivotData);
 
         return to_route('dashboard');
