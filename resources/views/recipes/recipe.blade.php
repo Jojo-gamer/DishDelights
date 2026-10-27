@@ -106,8 +106,19 @@
                             <div
                                 class="flex flex-col justify-center gap-2 border-r border-slate-200 pr-3 text-xs text-slate-500">
                                 <span
-                                    class="shrink-0 w-fit rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800">
-                                    ★★★★★
+                                    class="flex w-fit shrink-0 items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800">
+                                    <span
+                                        class="relative inline-block leading-none"
+                                        role="img"
+                                        aria-label="{{ $comment->rating / 2 }} van 5 sterren"
+                                    >
+                                        <span class="text-slate-300">★★★★★</span>
+                                        <span
+                                            class="absolute inset-y-0 left-0 overflow-hidden whitespace-nowrap text-amber-400"
+                                            style="width: {{ $comment->rating * 10 }}%;"
+                                        >★★★★★</span>
+                                    </span>
+                                    <span>{{ $comment->rating / 2 }} / 5</span>
                                 </span>
                                 <div class="flex justify-center gap-2">
                                     @isset($comment->user)
@@ -125,22 +136,43 @@
                                 </div>
                             </div>
                             <div class="flex min-w-0 flex-1 flex-col justify-center gap-2">
-                                <div class="flex items-start justify-between gap-4">
-                                    <h3 class="text-lg font-semibold text-emerald-700">
-                                        {{ $comment->title }}
-                                    </h3>
-
-                                    <time
-                                        datetime="{{ $comment->created_at->toDateString() }}"
-                                        class="shrink-0 text-xs font-medium text-slate-400"
-                                    >
-                                        {{ $comment->created_at->format('d M') }}
-                                    </time>
-                                </div>
-
+                                <h3 class="text-lg font-semibold text-emerald-700">
+                                    {{ $comment->title }}
+                                </h3>
                                 <p class="text-sm leading-7 text-slate-600">
                                     {{ $comment->content }}
                                 </p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <time
+                                    datetime="{{ $comment->created_at->toDateString() }}"
+                                    class="shrink-0 text-xs font-medium text-slate-400"
+                                >
+                                    {{ $comment->created_at->format('d M') }}
+                                </time>
+                                @can('delete', $comment)
+                                    <form method="post" action="{{ route('comments.destroy', [$recipe, $comment]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            type="submit"
+                                            aria-label="Comment verwijderen"
+                                            title="Comment verwijderen"
+                                            class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                        >
+                                            <svg
+                                                class="h-4 w-4"
+                                                aria-hidden="true"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                      d="M6 7h12m-9 0V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7m-7 0 .75 12.25A1.75 1.75 0 0 0 10.5 21h3a1.75 1.75 0 0 0 1.75-1.75L16 7m-6 4v6m4-6v6"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                @endcan
                             </div>
                         </article>
                     @empty
@@ -149,8 +181,10 @@
                             <p class="text-sm text-slate-500">Er zijn nog geen comments bij dit recept.</p>
                         </div>
                     @endforelse
+
+
                     <form method="POST" action="{{ route('comments.store', $recipe) }}"
-                          class="grid gap-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                          class="grid gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm sm:p-6">
                         @csrf
                         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
                             <div class="grid gap-1">
@@ -158,13 +192,10 @@
                                 <p class="text-sm text-slate-500">Deel je ervaring met dit recept.</p>
                             </div>
                             <div class="flex gap-2 items-center">
-                                {{--                                <span--}}
-                                {{--                                    class="rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium tracking-wide text-emerald-800">--}}
-                                {{--                                    ★★★★★--}}
-                                {{--                                </span>--}}
                                 <x-input-label for="rating" :value="__('Rating')" class="text-xl"/>
                                 <div>
-                                    <x-text-input id="rating" name="rating" type="number" class="w-20" :value="old('rating', '')"/>
+                                    <x-text-input id="rating" name="rating" type="number" class="w-20"
+                                                  :value="old('rating', '')"/>
                                     <span>/10</span>
                                 </div>
                             </div>

@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
         ->name('recipes.active');
 
     Route::post('recipes/{recipe}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('recipes/{recipe}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 Route::can('admin')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');

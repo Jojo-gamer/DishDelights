@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
@@ -18,6 +19,15 @@ class CommentController extends Controller
             'content' => $request->input('content'),
             'rating' => $request->input('rating'),
         ]);
+
+        return to_route('recipes.show', compact('recipe'));
+    }
+
+    public function destroy(Recipe $recipe, Comment $comment)
+    {
+        Gate::authorize('delete', $comment);
+
+        $comment->delete();
 
         return to_route('recipes.show', compact('recipe'));
     }
