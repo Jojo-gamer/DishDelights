@@ -7,7 +7,6 @@
         <option value="" class="p-2">- NONE -</option>
         @foreach($categories as $category)
             <option value="{{ $category->id }}"
-{{--    misschien voor meerdere filters:                @selected(in_array($category->id, request('f')))--}}
                     @selected($category->id == request('f'))
                     class="pl-3 py-0.5">{{ $category->name }}
             </option>

@@ -34,4 +34,9 @@ class Recipe extends Model
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
     }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

@@ -78,7 +78,7 @@
                 x-ref="ingredientSelect"
                 x-model="choice"
                 @change="addIngredient"
-                class="block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-300 dark:text-black"
+                class="block w-full rounded-md border-gray-300 bg-gray-100 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
             >
                 <option value="">-- Kies een ingredient --</option>
                 @foreach($ingredients as $ingredient)

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -17,6 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('recipes', RecipeController::class)->except(['index', 'show']);
     Route::patch('/recipes/{recipe}/active', [RecipeController::class, 'updateActiveState'])
         ->name('recipes.active');
+
+    Route::post('recipes/{recipe}/comments', [CommentController::class, 'store'])->name('comments.store');
 });
 Route::can('admin')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');

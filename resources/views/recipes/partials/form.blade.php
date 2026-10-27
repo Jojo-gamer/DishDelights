@@ -13,7 +13,7 @@
 <div>
     <x-input-label for="description" :value="__('Description')"/>
     <textarea id="description" name="description" rows="4"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-300 dark:text-black"
+              class="mt-1 block w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
     >{{ old('description', $recipe->description ?? '') }}</textarea>
     <x-input-error :messages="$errors->get('description')" class="mt-2"/>
 </div>
@@ -33,7 +33,7 @@
             id="categories"
             name="categories[]"
             multiple
-            class="category-select block w-full rounded-md border-gray-300 bg-white p-0 text-slate-900 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+            class="category-select block w-full rounded-md border-gray-300 bg-gray-100 p-0 text-slate-900 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
         >
             <option value="" disabled class="p-2">-- Kies een categorie --</option>
             @foreach($categories as $category)
@@ -53,7 +53,7 @@
 <div>
     <x-input-label for="instructions" :value="__('Instructions')"/>
     <textarea id="instructions" name="instructions" rows="8"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-300 dark:text-black"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 bg-gray-100"
     >{{ old('instructions', $recipe->instructions ?? '') }}</textarea>
     <x-form-instructions>Zet elke stap op een nieuwe regel.</x-form-instructions>
     <x-input-error :messages="$errors->get('instructions')" class="mt-2"/>
