@@ -85,6 +85,8 @@ class RecipeController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Recipe::class);
+
         $ingredients = Ingredient::all();
         $categories = Category::all();
         return view('recipes.create', compact('ingredients', 'categories'));

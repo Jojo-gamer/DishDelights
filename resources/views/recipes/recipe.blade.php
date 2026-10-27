@@ -151,7 +151,9 @@
                                     {{ $comment->created_at->format('d M') }}
                                 </time>
                                 @can('delete', $comment)
-                                    <form method="post" action="{{ route('comments.destroy', [$recipe, $comment]) }}">
+                                    <form method="post"
+                                          action="{{ route('comments.destroy', [$recipe, $comment]) }}"
+                                          onsubmit="return confirm('Weet je zeker dat je dit wilt verwijderen?');">
                                         @csrf
                                         @method('DELETE')
                                         <button
