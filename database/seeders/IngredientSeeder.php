@@ -12,7 +12,8 @@ class IngredientSeeder extends Seeder
         foreach ([
             'Ui', 'Knoflook', 'Olijfolie', 'Tomaat', 'Paprika', 'Wortel',
             'Aardappel', 'Rijst', 'Pasta', 'Kipfilet', 'Eieren', 'Melk',
-            'Bloem', 'Boter', 'Parmezaanse kaas', 'Kikkererwten',
+            'Bloem', 'Boter', 'Parmezaanse kaas', 'Kikkererwten', 'Zalm',
+            'Broccoli', 'Citroen',
         ] as $name) {
             Ingredient::firstOrCreate(['name' => $name]);
         }

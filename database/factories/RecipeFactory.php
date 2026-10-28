@@ -19,9 +19,9 @@ class RecipeFactory extends Factory
             'name' => fake()->unique()->words(3, true),
             'description' => fake()->paragraph(),
             'prep_time' => fake()->numberBetween(10, 90),
-            'instructions' => json_encode(fake()->sentences(4)),
-            'image_path' => 'recipes/yWEJnQkfrZLm4wZzVuXsa0GtZFABthcvmNyvj1EU.jpg',
-            'status' => 'approved',
+            'instructions' => json_encode(fake()->sentences(5)),
+            'image_path' => 'recipes/7xbPjhBjIC9DUQZK2VymD9xRUYY69cvOztTjUNho.webp',
+            'status' => 'pending',
             'is_active' => true,
             'user_id' => User::factory(),
         ];
