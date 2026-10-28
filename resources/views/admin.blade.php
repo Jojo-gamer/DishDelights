@@ -12,8 +12,6 @@
                     <h2 class="text-3xl font-bold tracking-tight text-slate-900">Pending recipes</h2>
                     <p class="text-sm text-slate-600">Beheer hier de ingezonden recepten.</p>
                 </div>
-
-                @include('recipes.partials.create-recipe-button')
             </div>
 
             <div class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-200">

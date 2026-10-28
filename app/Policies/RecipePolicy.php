@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Gate;
 
 class RecipePolicy
 {
@@ -26,7 +27,11 @@ class RecipePolicy
 
     public function create(User $user)
     {
-        $commentCount = count($user->comments);
-        return $commentCount >= 3 ? Response::allow() : Response::deny("Je zit op $commentCount / 3 minimum geplaatste comments");
+        if ($user->isAdmin())
+            return true;
+        else {
+            $commentCount = count($user->comments);
+            return $commentCount >= 3 ? Response::allow() : Response::deny("Je zit op $commentCount / 3 minimum geplaatste comments");
+        }
     }
 }
