@@ -1,12 +1,13 @@
 <x-app-layout title="{{ $recipe->name }}">
     <div class="bg-slate-200 px-4 py-12 sm:px-6 lg:px-8">
         <article class="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-white shadow-lg">
-            <div class="aspect-[16/9] w-full bg-slate-100 sm:aspect-[2/1]">
+            <div class="relative aspect-[16/9] w-full bg-slate-100 sm:aspect-[2/1]">
                 <img
                     src="{{ asset('storage/' . $recipe->image_path) }}"
                     alt="{{ $recipe->name }}"
                     class="h-full w-full object-cover"
                 >
+                @include('recipes.partials.favorite')
             </div>
 
             <div class="p-6 sm:p-10">

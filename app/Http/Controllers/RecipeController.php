@@ -76,7 +76,7 @@ class RecipeController extends Controller
                     $f->where('id', $filter);
                 });
             })
-            ->when($favorites, function (Builder $builder) {
+            ->when($favorites && auth()->user(), function (Builder $builder) {
                 $builder->whereHas('favorites', function ($fav) {
                     $fav->where('user_id', auth()->user()->id);
                 });

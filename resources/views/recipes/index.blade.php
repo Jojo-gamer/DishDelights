@@ -19,7 +19,7 @@
                                 >
                             </a>
 
-                            @include('recipes.partials.favorite');
+                            @include('recipes.partials.favorite')
                         </div>
 
                         <a href="{{ route('recipes.show', $recipe->id) }}"

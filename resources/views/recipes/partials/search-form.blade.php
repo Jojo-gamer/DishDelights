@@ -1,4 +1,5 @@
 <form method="get" action="{{ route('recipes.index') }}" class="flex gap-2">
+    @auth
     <button
         name="fav"
         value="{{ request('fav') ? '0' : '1'}}"
@@ -6,6 +7,7 @@
         class="flex h-11 w-11 items-center justify-center rounded-full border border-white bg-white text-black shadow-lg backdrop-blur-sm transition hover:scale-105 hover:bg-white/15">
         <x-favorite-button state="{{ request('fav') }}"/>
     </button>
+    @endauth
     <select
         id="f"
         name="f"
