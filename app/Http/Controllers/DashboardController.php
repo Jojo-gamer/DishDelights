@@ -10,7 +10,7 @@ class DashboardController extends Controller
     //
     public function index()
     {
-        $recipes = Auth::user()->recipes;
+        $recipes = Auth::user()->recipes()->orderByDesc('created_at')->get();
         return view('dashboard', compact('recipes'));
     }
 }
