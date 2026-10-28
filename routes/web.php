@@ -16,8 +16,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('recipes', RecipeController::class)->except(['index', 'show']);
-    Route::patch('/recipes/{recipe}/active', [RecipeController::class, 'updateActiveState'])
-        ->name('recipes.active');
+    Route::post('/recipes/{recipe}/active', [RecipeController::class, 'updateActiveState'])->name('recipes.active');
+    Route::post('/recipes/{recipe}/favorite', [RecipeController::class, 'toggleFavorite'])->name('recipes.favorite');
 
     Route::post('recipes/{recipe}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('recipes/{recipe}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');

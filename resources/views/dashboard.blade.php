@@ -85,7 +85,6 @@
                                 <td class="whitespace-nowrap px-6 py-5">
                                     <form method="POST" action="{{ route('recipes.active', $recipe->id) }}">
                                         @csrf
-                                        @method('PATCH')
                                         <label class="relative inline-flex cursor-pointer items-center">
                                             <input
                                                 type="checkbox"

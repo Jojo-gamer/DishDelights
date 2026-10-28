@@ -185,4 +185,12 @@ class RecipeController extends Controller
 
         return to_route('dashboard');
     }
+
+    public function toggleFavorite(Recipe $recipe)
+    {
+        $user = auth()->user();
+        $user->toggleFavorite($recipe);
+
+        return back();
+    }
 }
