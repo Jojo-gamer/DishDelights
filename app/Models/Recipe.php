@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,7 +11,7 @@ use Overtrue\LaravelFavorite\Traits\Favoriteable;
 
 class Recipe extends Model
 {
-    use Favoriteable;
+    use Favoriteable, HasFactory;
 
     protected $fillable = [
         'name',
