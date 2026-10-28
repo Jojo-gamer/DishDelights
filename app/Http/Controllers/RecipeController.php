@@ -59,6 +59,7 @@ class RecipeController extends Controller
 
         $query = $request->input('q');
         $filter = $request->input('f');
+        $favorites = $request->boolean('fav');
 
         $recipes = Recipe::where([
             ['status', 'approved'],
@@ -73,6 +74,11 @@ class RecipeController extends Controller
             ->when($filter, function (Builder $builder, string $filter) {
                 $builder->whereHas('categories', function ($f) use ($filter) {
                     $f->where('id', $filter);
+                });
+            })
+            ->when($favorites, function (Builder $builder) {
+                $builder->whereHas('favorites', function ($fav) {
+                    $fav->where('user_id', auth()->user()->id);
                 });
             })
             ->get();
